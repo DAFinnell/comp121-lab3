@@ -2,8 +2,8 @@ import java.io.*;
 /**
  * An implementation of a company called BooksAndMore.
  * 
- * @author (your name)
- * @version (a version number or a date)
+ * @author Derek Finnell
+ * @version 3/18/25
  */
 public class BooksAndMore implements Company, Serializable
 {
@@ -138,8 +138,7 @@ public class BooksAndMore implements Company, Serializable
      */
     public Product[] allProducts()
     {
-        /*# TODO: insert Code here */
-        return null;
+        return this.products;
     }
     
     /**
@@ -153,8 +152,13 @@ public class BooksAndMore implements Company, Serializable
     public static Company readFromFile(String fileName) 
                     throws IOException, ClassNotFoundException
     {
-        /*# TODO: insert Code here */
-        return null;
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+            return (Company) ois.readObject();
+        } catch (IOException e) {
+            System.out.println("Error reading from file: " + fileName);
+        } catch (ClassNotFoundException e) {
+            System.out.println("Company not found in file: " + fileName);
+        } return null;
     }
     
     /**
@@ -165,7 +169,11 @@ public class BooksAndMore implements Company, Serializable
      */
     public void writeToFile(String fileName) throws IOException
     {
-       /*# TODO: insert Code here */
+       try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
+           oos.writeObject(this);
+       } catch (FileNotFoundException e) {
+           System.out.println("File not found or Invalid " + fileName);
+       }
     }    
     
 }

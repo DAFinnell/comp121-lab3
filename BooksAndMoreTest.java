@@ -2,11 +2,14 @@ import static org.junit.Assert.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Arrays;
+
 /**
  * The test class BooksAndMoreTest.
  *
- * @author  (your name)
- * @version (a version number or a date)
+ * @author  Derek Finnell
+ * @version 3/18/25
  */
 public class BooksAndMoreTest 
 {
@@ -198,6 +201,13 @@ public class BooksAndMoreTest
         this.company = new BooksAndMore();
     }
 
-    /*# TODO: insert remaining tests here */
-    
+//    /**
+//     * Tests allProducts method
+//     */
+//    @Test
+//    public void testAllProducts()
+//    {
+//        company = buildCompany();
+//        System.out.println(Arrays.toString(company.allProducts()));
+//    }
 }

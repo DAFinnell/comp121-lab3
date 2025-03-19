@@ -1,0 +1,6 @@
+ADD Book name=History_of_Franklin, desc=Fiction, price=25.0, quantity=2, date=20091023
+ADD GiftCard name=10_Giftcard, desc=books_only, price=10.0, quantity=1, amount=10
+ADD Magazine name=FranklinTimes, desc=Periodical, price=5.0, quantity=20, date=20100705
+ADD GiftCard name=20_Giftcard, desc=books_only, price=18.0, quantity=1, amount=20
+UPDATE 1 price=18.50
+DELETE 4

@@ -5,8 +5,8 @@ import org.junit.Test;
 /**
  * The test class BatchProcessorTest.
  *
- * @author  (your name)
- * @version (a version number or a date)
+ * @author  Derek Finnell
+ * @version 3/18/25
  */
 public class BatchProcessorTest 
 {
@@ -23,7 +23,9 @@ public class BatchProcessorTest
     {
         company = new BooksAndMore();
         processor = new BatchProcessor(company);
+
     }
     
-    /*# TODO: insert remaining tests here */
+    @Test
+
 }
