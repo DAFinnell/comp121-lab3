@@ -38,7 +38,9 @@ public class BatchProcessor
     }
 
     /**
-     * Method for processing the "add" command
+     * Helper method for processing the "add" command
+     * @param tokens array to be processed
+     * @return true if valid and successful, false otherwise
      */
     private boolean processAdd (String [] tokens) {
         Product product = null;
@@ -64,7 +66,9 @@ public class BatchProcessor
         return true;
     }
     /**
-     * Method to format date for input
+     * Helper method to format date for input
+     * @param value the string to parse and format
+     * @return calendar created by parsed data
      */
     private GregorianCalendar processDate(String value) {
         int year = Integer.parseInt(value.substring(0, 4));
@@ -73,7 +77,7 @@ public class BatchProcessor
         return new GregorianCalendar(year, month, day);
     }
     /**
-     * Method to process fields further to add to product
+     * Helper method to process fields further to add to product
      */
     public void processFieldsAdd (Product product, String fields) {
         String[] pairs = fields.split(",");
@@ -106,7 +110,13 @@ public class BatchProcessor
                     } else {
                         break;
                     }
-                    break;
+                case "amount":
+                    Double amount = Double.parseDouble(value);
+                    if (product instanceof GiftCard) {
+                        ((GiftCard) product).setAmount(new Dollar(amount));
+                    } else {
+                        break;
+                    }
                 default:
                     break;
             }
@@ -114,17 +124,43 @@ public class BatchProcessor
     }
     /**
      * Method for processing the "update" command
+     * @param fields array to be processed
+     * @return true if successful and valid, false if not
      */
-    public void processUpdate (String [] fields) {
+    public boolean processUpdate (String [] fields) {
+        if (fields.length != 3) {
+            return false;
+        }
 
+        IdLookup lookup = new IdLookup(fields[1]);
+        Product[] products = company.findProducts(lookup);
+        if (products.length != 1) {
+            return false;
+        }
+        for (Product product : products) {
+            processFieldsAdd(product, fields[2]);
+        }
+        return true;
     }
 
     /**
      * Method for processing the "delete" command
-     * @param fields
+     * @param fields array to be processed
+     * @return true if successful and valid, false if not
      */
-    public void processDelete (String [] fields) {
-
+    public boolean processDelete (String [] fields) {
+        if (fields.length != 2) {
+            return false;
+        }
+        IdLookup lookup = new IdLookup(fields[1]);
+        Product[] products = company.findProducts(lookup);
+        if (products.length != 1) {
+            return false;
+        }
+        for (Product product : products) {
+            company.remove(product);
+        }
+        return true;
     }
     /**
      * Reads the processing commands from the given input stream,
@@ -150,7 +186,9 @@ public class BatchProcessor
                     }
                     break;
                 case "delete":
-                    processDelete(tokens);
+                    if (processDelete(tokens)) {
+                        count++;
+                    }
                     break;
                 default:
                     break;

@@ -25,8 +25,4 @@ public class BatchProcessorTest
         processor = new BatchProcessor(company);
 
     }
-    
-    @Test
-
-
 }
