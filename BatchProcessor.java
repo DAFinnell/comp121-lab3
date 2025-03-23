@@ -59,7 +59,7 @@ public class BatchProcessor
         }
 
         if (tokens.length == 3) {
-            processFieldsAdd(product, tokens[2]);
+            processFields(product, tokens[2]);
         }
 
         company.add(product);
@@ -78,8 +78,10 @@ public class BatchProcessor
     }
     /**
      * Helper method to process fields further to add to product
+     * @param product the product to set the fields for
+     * @param fields the string of all fields to be set. Needs to be split into key value pairs.
      */
-    private void processFieldsAdd (Product product, String fields) {
+    private void processFields (Product product, String fields) {
         String[] pairs = fields.split(",");
         for (String pair : pairs) {
             String[] keyValue = pair.split("=");
@@ -137,7 +139,7 @@ public class BatchProcessor
             return false;
         }
         for (Product product : products) {
-            processFieldsAdd(product, tokens[2]);
+            processFields(product, tokens[2]);
         }
         return true;
     }
