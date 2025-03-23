@@ -79,7 +79,7 @@ public class BatchProcessor
     /**
      * Helper method to process fields further to add to product
      */
-    public void processFieldsAdd (Product product, String fields) {
+    private void processFieldsAdd (Product product, String fields) {
         String[] pairs = fields.split(",");
         for (String pair : pairs) {
             String[] keyValue = pair.split("=");
@@ -124,36 +124,35 @@ public class BatchProcessor
     }
     /**
      * Method for processing the "update" command
-     * @param fields array to be processed
+     * @param tokens array to be processed
      * @return true if successful and valid, false if not
      */
-    public boolean processUpdate (String [] fields) {
-        if (fields.length != 3) {
+    private boolean processUpdate (String [] tokens) {
+        if (tokens.length != 3) {
             return false;
         }
 
-        IdLookup lookup = new IdLookup(fields[1]);
-        Product[] products = company.findProducts(lookup);
+        Product[] products = company.findProducts(new IdLookup(tokens[1]));
         if (products.length != 1) {
             return false;
         }
         for (Product product : products) {
-            processFieldsAdd(product, fields[2]);
+            processFieldsAdd(product, tokens[2]);
         }
         return true;
     }
 
     /**
      * Method for processing the "delete" command
-     * @param fields array to be processed
+     * @param tokens array to be processed
      * @return true if successful and valid, false if not
      */
-    public boolean processDelete (String [] fields) {
-        if (fields.length != 2) {
+    private boolean processDelete (String [] tokens) {
+        if (tokens.length != 2) {
             return false;
         }
-        IdLookup lookup = new IdLookup(fields[1]);
-        Product[] products = company.findProducts(lookup);
+
+        Product[] products = company.findProducts(new IdLookup(tokens[1]));
         if (products.length != 1) {
             return false;
         }
@@ -193,7 +192,6 @@ public class BatchProcessor
                 default:
                     break;
             }
-
         } return count;
     }
 }
